@@ -1,0 +1,59 @@
+# Compiled files
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go build output
+bin/
+obj/
+
+# IDE configurations
+.idea/
+.vscode/
+
+# Vendor directory (optional, depends on your project preference)
+vendor/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.swp
+
+# MacOS files
+.DS_Store
+
+# Coverage files
+coverage.out
+
+# Build directories
+build/
+dist/
+
+# Dependency directories
+node_modules/
+
+# Miscellaneous
+*.zip
+*.tar.gz
+
+# Docker artifacts
+docker-compose.override.yml
+docker-compose.prod.yml
+docker-compose.test.yml
+docker-compose.local.yml
+
+# Test cache
+*.testcache
+
+# Go workspace file
+go.work.sum

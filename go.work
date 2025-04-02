@@ -1,0 +1,13 @@
+go 1.23.0
+
+use (
+./services/account-svc
+./services/application-svc
+./services/billing-svc
+./services/environment-svc
+./services/logging-svc
+./services/namespaces-svc
+./services/notification-svc
+./services/organization-svc
+./services/scaffold-svc
+)
