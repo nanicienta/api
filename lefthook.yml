@@ -1,17 +1,16 @@
 pre-commit:
   commands:
-#    lint:
-#      run: |
-#        for dir in $(grep '^[[:space:]]*[^#]' go.work | grep -o './[^"]*'); do
-#          echo "🔍 Linting $dir"
-#          (cd "$dir" && golangci-lint run --timeout 5m --out-format=colored-line-number || exit 1)
-#        done
+    lint:
+      run: |
+        for dir in $(grep '^[[:space:]]*[^#]' go.work | grep -o './[^"]*'); do
+          echo "🔍 Linting $dir"
+          (cd "$dir" && golangci-lint run --timeout 5m --out-format=colored-line-number || exit 1)
+        done
     check-fmt:
       run: |
         unformatted=$(gofmt -s -l .)
         [ -z "$unformatted" ] || (echo "$unformatted" && exit 1)
 commit-msg:
-  scripts:
+  commands:
     validate-commit:
-      runner: bash
-      path: ./scripts/validate-commit.sh
+      run: bash ./scripts/validate-commit.sh {1}
