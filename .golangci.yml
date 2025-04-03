@@ -1,0 +1,23 @@
+run:
+  timeout: 5m
+  skip-dirs:
+    - "vendor"
+    - "node_modules"
+
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - gofmt
+    - goimports
+    - gocritic
+    - revive
+
+linters-settings:
+  gofmt:
+    simplify: true
+
+paths:
+  - pkg
+  - services/account-svc
+  - services/notification-svc

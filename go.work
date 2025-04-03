@@ -10,4 +10,5 @@ use (
 ./services/notification-svc
 ./services/organization-svc
 ./services/scaffold-svc
+	pkg
 )

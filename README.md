@@ -23,7 +23,8 @@ This repository provides the base structure and boilerplate for a set of microse
 
 ## Prerequisites
 
-- **Go 1.22+**
+- **Go 1.23+**
+- ```go install mvdan.cc/gofumpt@latest```
 - **Docker and Docker Compose** (optional for local setup)
 - **Make** (optional for automation tasks)
 

@@ -1,0 +1,21 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  check-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title format and base branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+
+            const validTitle = /^(fix|feature|hotfix) NANI-\d+: .+$/i.test(title);
+
+            if (!validTitle) {
+              core.setFailed('❌ The PR title should be: [fix|feature|hotfix] NANI-xxx: description');
+            }

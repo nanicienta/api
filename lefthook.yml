@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      run: golangci-lint run ./...
+
+commit-msg:
+  scripts:
+    "check-message":
+      runner: bash
+      script: |
+        if ! grep -qE '^NANI-[0-9]+: .+' "$1"; then
+          echo "❌ Commit message must match 'NANI-xxx: <message>'"
+          exit 1
+        fi
+    "format-check":
+      run: gofumpt -l -e .
