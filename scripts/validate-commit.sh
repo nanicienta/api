@@ -2,6 +2,8 @@
 
 file="$1"
 
+echo "💡 Validating commit message from file: $file"
+
 if [ ! -f "$file" ]; then
   echo "❌ Commit message file not found."
   exit 1
