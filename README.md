@@ -1,20 +1,19 @@
-# My Dev Platform
+# Nanicienta
 
-Monorepo containing microservices built in Go, following Hexagonal Architecture principles.
+Monorepo containing microservices built in Go, trying to follow Hexagonal Architecture principles.
 
 ## Overview
-
 This repository provides the base structure and boilerplate for a set of microservices designed for developers. Each microservice follows hexagonal architecture, ensuring clear separation of concerns, testability, and maintainability.
 
 ### Services Included:
 
 - **Account Service (`account-svc`)**: Handles user management, authentication, authorization, and organization management.
-- **Application Service (`app-svc`)**: Manages applications and their respective environments.
+- **Application Service (`application-svc`)**: Manages applications and their respective environments.
 - **Scaffold Service (`scaffold-svc`)**: Provides boilerplate generation for different technology stacks.
 - **Logging Service (`logging-svc`)**: Centralized logging and monitoring service.
 
 ### Shared Libraries (`pkg`):
-
+- **Domain**: Some domain utils, like page and other types that will be useful in the future.
 - **Logger**: Basic logging utilities.
 - **Auth**: Authentication middleware.
 - **Config**: Utilities for environment configuration loading.
