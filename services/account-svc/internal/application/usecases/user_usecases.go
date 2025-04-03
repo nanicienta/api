@@ -12,6 +12,7 @@ type UserUseCases struct {
 	userRepository outbound.UserRepository
 }
 
+// NewUserUseCases: Creates a new UserUseCases (Like user service)
 func NewUserUseCases(logger logging.Logger, userRepository outbound.UserRepository) *UserUseCases {
 	return &UserUseCases{
 		log:            logger,
@@ -19,6 +20,7 @@ func NewUserUseCases(logger logging.Logger, userRepository outbound.UserReposito
 	}
 }
 
+// GetAll: Returns all users paginated
 func (u *UserUseCases) GetAll(page int, size int) (domain.Page[model.User], error) {
 	users, err := u.userRepository.GetPage(page, size)
 	if err != nil {
