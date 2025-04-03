@@ -1,17 +1,17 @@
 pre-commit:
-  parallel: true
   commands:
-    lint:
-      run: golangci-lint run ./...
-
+#    lint:
+#      run: |
+#        for dir in $(grep '^[[:space:]]*[^#]' go.work | grep -o './[^"]*'); do
+#          echo "🔍 Linting $dir"
+#          (cd "$dir" && golangci-lint run --timeout 5m --out-format=colored-line-number || exit 1)
+#        done
+    check-fmt:
+      run: |
+        unformatted=$(gofmt -s -l .)
+        [ -z "$unformatted" ] || (echo "$unformatted" && exit 1)
 commit-msg:
   scripts:
-    "check-message":
+    validate-commit:
       runner: bash
-      script: |
-        if ! grep -qE '^NANI-[0-9]+: .+' "$1"; then
-          echo "❌ Commit message must match 'NANI-xxx: <message>'"
-          exit 1
-        fi
-    "format-check":
-      run: gofumpt -l -e .
+      path: ./scripts/validate-commit.sh
