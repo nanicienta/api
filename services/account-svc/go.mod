@@ -1,6 +1,6 @@
 module github.com/nanicienta/api/account-svc
 
-go 1.23.0
+go 1.24.2
 
 require gorm.io/gorm v1.25.12
 
