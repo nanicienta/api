@@ -1,8 +1,10 @@
+version: 2
+
 run:
+  timeout: 5m
+  concurrency: 4
   issues-exit-code: 1
   tests: true
-  concurrency: 4
-  timeout: 5m
   modules-download-mode: readonly
   allow-parallel-runners: true
   skip-dirs-use-default: false
@@ -15,13 +17,5 @@ issues:
 linters:
   enable:
     - govet
-    - gofmt
-    - goimports
     - revive
     - staticcheck
-
-linters-settings:
-  gofmt:
-    simplify: true
-  goimports:
-    local-prefixes: github.com/nancienta/api

@@ -31,22 +31,34 @@ func getDBConfig() *dBConfig {
 }
 
 func initDBConfig() {
-	var err error
 	dbConfiguration = &dBConfig{}
 	dbConfiguration.databaseUser = os.Getenv("DB_USER")
 	dbConfiguration.databasePassword = os.Getenv("DB_PASS")
 	dbConfiguration.databaseHost = os.Getenv("DB_HOST")
-	dbConfiguration.databasePort, err = strconv.Atoi(os.Getenv("DB_PORT"))
-	dbConfiguration.databaseMaxLifetime, err = strconv.Atoi(os.Getenv("DB_POOL_MAX_LIFE_TIME"))
-	dbConfiguration.databaseMaxPoolSize, err = strconv.Atoi(os.Getenv("DB_POOL_MAX"))
-	dbConfiguration.databaseMaxIdle, err = strconv.Atoi(os.Getenv("DB_POOL_MAX_IDLE"))
-	dbConfiguration.logging, err = strconv.ParseBool(os.Getenv("DB_LOGGING"))
-	if err != nil {
-		panic("Error parsing the database port")
+	var err error
+	if dbConfiguration.databasePort, err = strconv.Atoi(os.Getenv("DB_PORT")); err != nil {
+		panic(fmt.Sprintf("invalid DB_PORT: %v", err))
+	}
+
+	if dbConfiguration.databaseMaxLifetime, err = strconv.Atoi(os.Getenv("DB_POOL_MAX_LIFE_TIME")); err != nil {
+		panic(fmt.Sprintf("invalid DB_POOL_MAX_LIFE_TIME: %v", err))
+	}
+
+	if dbConfiguration.databaseMaxPoolSize, err = strconv.Atoi(os.Getenv("DB_POOL_MAX")); err != nil {
+		panic(fmt.Sprintf("invalid DB_POOL_MAX: %v", err))
+	}
+
+	if dbConfiguration.databaseMaxIdle, err = strconv.Atoi(os.Getenv("DB_POOL_MAX_IDLE")); err != nil {
+		panic(fmt.Sprintf("invalid DB_POOL_MAX_IDLE: %v", err))
+	}
+
+	if dbConfiguration.logging, err = strconv.ParseBool(os.Getenv("DB_LOGGING")); err != nil {
+		panic(fmt.Sprintf("invalid DB_LOGGING: %v", err))
 	}
 	dbConfiguration.databaseName = os.Getenv("DB_NAME")
 }
 
+// NewConnection Creates a new database connection
 func NewConnection() (*gorm.DB, error) {
 	dbConfig := getDBConfig()
 	dsn := fmt.Sprintf(

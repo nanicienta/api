@@ -1,3 +1,4 @@
+// Package configuration provides the configuration for the different components
 package configuration
 
 import (
@@ -5,33 +6,34 @@ import (
 	"strconv"
 )
 
-type HttpServerConfig struct {
+// HTTPServerConfig holds the configuration for the HTTP server
+type HTTPServerConfig struct {
 	port uint
 }
 
-// Getters for HttpServerConfig
-
-func (httpServerConfig *HttpServerConfig) GetPort() uint {
+// GetPort returns the port on which the HTTP server will listen
+func (httpServerConfig *HTTPServerConfig) GetPort() uint {
 	return httpServerConfig.port
 }
 
-var httpServerConfiguration *HttpServerConfig
+var initHTTPServerConfig *HTTPServerConfig
 
-func GetHttpServerConfig() *HttpServerConfig {
-	if httpServerConfiguration == nil {
-		initHttpServerConfig()
+// GetHTTPServerConfig Returns the initialized HTTPServerConfig
+func GetHTTPServerConfig() *HTTPServerConfig {
+	if initHTTPServerConfig == nil {
+		initConfig()
 	}
-	return httpServerConfiguration
+	return initHTTPServerConfig
 }
 
-func initHttpServerConfig() {
+func initConfig() {
 	portStr := os.Getenv("APP_PORT")
 	port, err := strconv.Atoi(portStr)
 	if err != nil {
 		port = 9000
 	}
 
-	httpServerConfiguration = &HttpServerConfig{
+	initHTTPServerConfig = &HTTPServerConfig{
 		port: uint(port),
 	}
 }

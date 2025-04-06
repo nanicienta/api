@@ -83,7 +83,7 @@ A basic example `docker-compose.yml` structure:
 version: '3.8'
 services:
   account_svc:
-    build: ./services/account-svc
+    build: services/account-svc
     environment:
       - DB_URL=${DB_URL}
     ports:

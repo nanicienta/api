@@ -4,9 +4,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/nanicienta/api/account-svc/internal/application/usecases"
+	"github.com/nanicienta/api/account-svc/internal/application/usecase"
 	"github.com/nanicienta/api/account-svc/internal/infrastructure/adapters/logging"
-	"github.com/nanicienta/api/account-svc/internal/infrastructure/adapters/repository"
+	"github.com/nanicienta/api/account-svc/internal/infrastructure/adapters/repository/gorm"
 	"github.com/nanicienta/api/account-svc/internal/infrastructure/configuration"
 	"github.com/nanicienta/api/account-svc/internal/infrastructure/server"
 	"os"
@@ -31,17 +31,17 @@ func main() {
 		panic("failed to create the connection database")
 	}
 	//Repository initialization
-	userRepo := repository.NewUserRepository(log, conn)
+	userRepo := gorm.NewAccountRepository(log, conn)
 
 	//Use cases initialization
-	usecases.NewUserUseCases(log, userRepo)
+	usecase.NewAccountUseCase(log, userRepo)
 
 	// Initialize the Server configuration
 	instance := gin.New()
 	instance.Use(gin.Recovery())
-	httpServer := server.NewHttpServer(
+	httpServer := server.NewHTTPServer(
 		instance,
-		configuration.GetHttpServerConfig(),
+		configuration.GetHTTPServerConfig(),
 	)
 	httpServer.Start()
 	defer httpServer.Stop()

@@ -1,3 +1,4 @@
+// Package server defines the elements used for the server. (In this case HTTP)
 package server
 
 import (
@@ -12,7 +13,8 @@ import (
 
 const defaultHost = "0.0.0.0"
 
-type HttpServer interface {
+// HTTPServer Interface for the HTTP server
+type HTTPServer interface {
 	Start()
 	Stop()
 }
@@ -22,10 +24,11 @@ type httpServer struct {
 	server *http.Server
 }
 
-func NewHttpServer(
+// NewHTTPServer Creates a new HTTPServer
+func NewHTTPServer(
 	router *gin.Engine,
-	config *configuration.HttpServerConfig,
-) HttpServer {
+	config *configuration.HTTPServerConfig,
+) HTTPServer {
 	return &httpServer{
 		Port: config.GetPort(),
 		server: &http.Server{
@@ -39,7 +42,7 @@ func (httpServer httpServer) Start() {
 	go func() {
 		if err := httpServer.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf(
-				"failed to stater HttpServer listen port %d, err=%s",
+				"failed to stater HTTPServer listen port %d, err=%s",
 				httpServer.Port, err.Error(),
 			)
 		}

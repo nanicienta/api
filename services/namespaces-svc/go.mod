@@ -1,3 +1,3 @@
 module github.com/nanicienta/api/namespaces-svc
 
-go 1.23.0
+go 1.24.2

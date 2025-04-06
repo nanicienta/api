@@ -1,3 +1,4 @@
+// Package model represents the domain model for the account service.
 package model
 
 import (
@@ -5,15 +6,18 @@ import (
 	"time"
 )
 
-type User struct {
+// Account represents the user account model.
+type Account struct {
 	ID                string         `json:"id"`
-	Hash              string         `json:"hash"`
-	Name              string         `json:"name"`
+	Type              AccountType    `json:"type"`   // NEW: interno vs externo
+	Source            string         `json:"source"` // NEW: manual, google, saml, etc.
 	Email             string         `json:"email"`
 	EmailVerifiedAt   *time.Time     `json:"emailVerifiedAt"`
+	Language          string         `json:"language"`
 	Phone             string         `json:"phone"`
 	PhoneVerifiedAt   *time.Time     `json:"phoneVerifiedAt"`
-	PhotoUrl          string         `json:"photoUrl"`
+	Name              string         `json:"name"`
+	PhotoURL          string         `json:"photoUrl"`
 	Timezone          string         `json:"timezone"`
 	InviteConvertedAt *time.Time     `json:"inviteConvertedAt"`
 	MuteSounds        bool           `json:"muteSounds"`
@@ -26,7 +30,5 @@ type User struct {
 	IsDeleted         bool           `json:"isDeleted"`
 	DeletedBy         string         `json:"deletedBy"`
 	UpdatedBy         string         `json:"updatedBy"`
-	AccessToken       string         `json:"accessToken"`
-	RefreshToken      string         `json:"refreshToken"`
 	LastLoginAt       *time.Time     `json:"lastLoginAt"`
 }
