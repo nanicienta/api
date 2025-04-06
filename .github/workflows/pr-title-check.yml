@@ -16,11 +16,11 @@ jobs:
 
             console.log(`🔍 Checking PR title: "${title}"`);
 
-            const validTitle = /^(fix|feature|hotfix) NANI-\d+: .+$/i.test(title);
+            const validTitle = /^\[(fix|feature|hotfix)\] NANI-\d+: .+$/i.test(title);
 
             if (!validTitle) {
               core.setFailed(
-                `❌ Invalid PR title: "${title}" The PR title must follow this format: [fix|feature|hotfix] NANI-xxx: description`                                                                       );
+                `❌ Invalid PR title: "${title}" PR title must follow this format: [fix|feature|hotfix] NANI-xxx: description`);
             } else {
               console.log('✅ PR title format is valid.');
             }
