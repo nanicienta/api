@@ -12,7 +12,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const core = require('@actions/core');
             const title = context.payload.pull_request.title;
 
             console.log(`🔍 Checking PR title: "${title}"`);
@@ -21,7 +20,7 @@ jobs:
 
             if (!validTitle) {
               core.setFailed(
-                `❌ Invalid PR title: "${title}" The PR title must follow this format: [fix|feature|hotfix] NANI-xxx: description`);
+                `❌ Invalid PR title: "${title}" The PR title must follow this format: [fix|feature|hotfix] NANI-xxx: description`                                                                       );
             } else {
               console.log('✅ PR title format is valid.');
             }
