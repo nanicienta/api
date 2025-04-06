@@ -1,8 +1,10 @@
-go 1.23.0
+go 1.24.2
 
 use (
 ./services/account-svc
 ./services/application-svc
+./services/authorization-svc
+./services/authentication-svc
 ./services/billing-svc
 ./services/environment-svc
 ./services/logging-svc
@@ -10,4 +12,5 @@ use (
 ./services/notification-svc
 ./services/organization-svc
 ./services/scaffold-svc
+pkg
 )

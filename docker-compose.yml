@@ -1,34 +1,39 @@
 version: '3.8'
 services:
-  account_svc:
-    build: ./services/account-svc
-    environment:
-      - DB_URL=${DB_URL}
-    ports:
-      - "9000:9000"
+  #  account_svc:
+  #    build: ./services/account-svc
+  #    environment:
+  #      - DB_URL=${DB_URL}
+  #    ports:
+  #      - "9000:9000"
+  #
+  #  app_svc:
+  #    build: services/application-svc
+  #    environment:
+  #      - DB_URL=${DB_URL}
+  #    ports:
+  #      - "9001:9001"
+  #
+  #  scaffold_svc:
+  #    build: ./services/scaffold-svc
+  #    ports:
+  #      - "9002:9002"
+  #
+  #  logging_svc:
+  #    build: ./services/logging-svc
+  #    ports:
+  #      - "9003:9003"
 
-  app_svc:
-    build: services/application-svc
-    environment:
-      - DB_URL=${DB_URL}
+  redis:
+    image: redis:latest
     ports:
-      - "9001:9001"
+      - "9379:9379"
 
-  scaffold_svc:
-    build: ./services/scaffold-svc
-    ports:
-      - "9002:9002"
-
-  logging_svc:
-    build: ./services/logging-svc
-    ports:
-      - "9003:9003"
-
-  db:
+  postgres:
     image: postgres:17
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=dbname
+      - POSTGRES_USER=nani
+      - POSTGRES_PASSWORD=nani
+      - POSTGRES_DB=postgres
     ports:
-      - "5432:5432"
+      - "9876:5432"

@@ -1,0 +1,59 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.go"
+      run: |
+        echo "🔧 Running gofmt and goimports on staged files..."
+        cd "$(git rev-parse --show-toplevel)"
+
+        # obtener archivos .go que están staged y existen
+        files=$(git diff --name-only --cached -- '*.go' | xargs -r -n1 realpath --relative-to=. 2>/dev/null || true)
+
+        if [ -z "$files" ]; then
+          echo "✅ No valid Go files staged."
+          exit 0
+        fi
+
+        echo "📂 Formatting these files:"
+        echo "$files"
+
+        gofmt -s -l $files | tee /dev/stderr | (! read)
+
+        if command -v goimports > /dev/null 2>&1; then
+          goimports -l $files | tee /dev/stderr | (! read)
+        else
+          echo "⚠️ goimports not found. Install it with:"
+          echo "   go install golang.org/x/tools/cmd/goimports@latest"
+        fi
+
+
+    lint:
+      run: |
+        echo "🔍 Running golangci-lint on staged packages..."
+        cd "$(git rev-parse --show-toplevel)"
+
+        # obtener archivos staged y válidos
+        files=$(git diff --cached --name-only --diff-filter=ACMRT -- '*.go' | xargs -r ls 2>/dev/null || true)
+        if [ -z "$files" ]; then
+          echo "✅ No valid Go files staged for lint."
+          exit 0
+        fi
+
+        # obtener directorios únicos
+        dirs=$(echo "$files" | xargs -n1 dirname | sort -u)
+
+        echo "📁 Linting the following directories:"
+        echo "$dirs"
+
+        failed=0
+        for dir in $dirs; do
+          golangci-lint run "$dir" --timeout=5m || failed=1
+        done
+
+        exit $failed
+
+commit-msg:
+  commands:
+    validate-commit:
+      run: bash ./scripts/validate-commit.sh {1}
