@@ -2,7 +2,7 @@ name: Lint
 
 on:
   pull_request:
-    branches: [development]
+    branches: [develop]
 
 jobs:
   lint:
@@ -20,17 +20,50 @@ jobs:
       - name: Clean Go mod cache
         run: go clean -modcache
 
-      - name: Install golangci-lint
+      - name: Install golangci-lint and goimports
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
             | sh -s -- -b $(go env GOPATH)/bin v1.55.2
+          go install golang.org/x/tools/cmd/goimports@latest
 
-      - name: Add Golangci to PATH
+      - name: Add Golang tools to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
-      - name: Run golangci-lint in all go.work modules
+      - name: Run format check (gofmt + goimports)
         run: |
-          for dir in $(grep '^[[:space:]]*[^#]' go.work | grep -o './[^" ]*'); do
-            echo "🔍 Running linter in $dir"
-            (cd "$dir" && golangci-lint run --timeout 5m --out-format=colored-line-number || exit 1)
+          echo "🔧 Running gofmt and goimports..."
+
+          files=$(git diff --name-only origin/develop -- '*.go' | xargs -r -n1 realpath --relative-to=. 2>/dev/null || true)
+
+          if [ -z "$files" ]; then
+            echo "✅ No Go files to format."
+            exit 0
+          fi
+
+          echo "📂 Checking formatting for:"
+          echo "$files"
+
+          gofmt -s -l $files | tee /dev/stderr | (! read)
+          goimports -l $files | tee /dev/stderr | (! read)
+
+      - name: Run golangci-lint in changed directories
+        run: |
+          echo "🔍 Running golangci-lint..."
+
+          files=$(git diff --name-only origin/develop -- '*.go' | xargs -r ls 2>/dev/null || true)
+          if [ -z "$files" ]; then
+            echo "✅ No Go files to lint."
+            exit 0
+          fi
+
+          dirs=$(echo "$files" | xargs -n1 dirname | sort -u)
+
+          echo "📁 Linting the following directories:"
+          echo "$dirs"
+
+          failed=0
+          for dir in $dirs; do
+            golangci-lint run "$dir" --timeout=5m || failed=1
           done
+
+          exit $failed
