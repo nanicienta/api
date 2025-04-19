@@ -7,6 +7,7 @@ const (
 
 	//common error codes
 	InternalServerErrorCode ErrorCode = "0000000"
+	InvalidRequest          ErrorCode = "0000001"
 
 	//ErrorUserNotAcceptTermsAndConditions is returned when the user has not accepted the terms and conditions
 	ErrorUserNotAcceptTermsAndConditions ErrorCode = "0000001"
@@ -55,7 +56,7 @@ const (
 	// InternalServerErrorSendingNotification indicates an unexpected error while sending a notification.
 	InternalServerErrorSendingNotification ErrorCode = "00000030"
 
-	//AuthServiceErrorCode
+	/*AuthServiceErrorCode*/
 
 	// InternalServerErrorGettingAuthIdentity indicates an unexpected error while getting the auth identity.
 	InternalServerErrorGettingAuthIdentity ErrorCode = "10000000"

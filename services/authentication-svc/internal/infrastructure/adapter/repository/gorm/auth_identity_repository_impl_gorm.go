@@ -25,6 +25,20 @@ func NewAuthIdentityRepository(
 	}
 }
 
+// GetByID retrieves an identity by ID
+func (a *AuthIdentityRepositoryImplGorm) GetByID(id string) (*model.AuthIdentityModel, error) {
+	var authIdentityEntity entity.AuthIdentityEntity
+	if err := a.db.Where("id = ?", id).First(&authIdentityEntity).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		a.logger.Error("failed to get auth identity", "error", err)
+		return nil, err
+	}
+	authIdentityModel := authIdentityEntity.ToModel()
+	return &authIdentityModel, nil
+}
+
 // GetByEmailAndOrganizationID retrieves an identity by email and organization ID
 func (a *AuthIdentityRepositoryImplGorm) GetByEmailAndOrganizationID(email, organizationID string) (
 	*model.AuthIdentityModel,

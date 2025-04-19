@@ -49,7 +49,13 @@ func (arh *AuthenticationRestHandler) InitRouter() {
 func (arh *AuthenticationRestHandler) login(c *gin.Context) {
 	cmd, err := parseLoginCommand(c)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		arh.logger.Error("failed to parse login command (Parsing the context)", "err", err)
+		c.AbortWithStatusJSON(
+			http.StatusBadRequest, errors.NewBadRequestError(
+				"Failed to parse body",
+				"Failed to parse body", errors.InvalidRequest,
+			),
+		)
 		return
 	}
 

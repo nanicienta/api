@@ -9,4 +9,5 @@ type AuthIdentityRepository interface {
 	GetByEmailAndOrganizationID(email, organizationID string) (*model.AuthIdentityModel, error)
 	// UpdateBadAttemptCount updates the bad attempt count for an identity
 	UpdateBadAttemptCount(authModel *model.AuthIdentityModel) error
+	GetByID(id string) (*model.AuthIdentityModel, error)
 }
