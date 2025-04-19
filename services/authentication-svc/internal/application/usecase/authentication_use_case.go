@@ -99,7 +99,26 @@ func (c AuthenticationUseCase) RefreshToken(cmd command.RefreshTokenCommand) (
 	*errors.AppError,
 ) {
 
-	refreshToken, err := c.refreshTokenRepository.GetRefreshTokenByDeviceIDAndToken(cmd.DeviceID)
+	refreshToken, err := c.refreshTokenRepository.GetRefreshTokenByDeviceIDAndToken(
+		cmd.DeviceID,
+		cmd.RefreshToken,
+	)
+	if err != nil {
+		c.logger.Error("failed to get refresh token", "error", err)
+		return nil, errors.NewInternalServerError(
+			"failed to get refresh token",
+			"error",
+			errors.InternalServerErrorCode,
+		).AppError
+	}
+	if refreshToken == nil {
+		c.logger.Warn("failed to get refresh token (The refresh token was not found", "error", err)
+		return nil, errors.NewUnauthorizedError(
+			"failed to get refresh token",
+			"error",
+			errors.InvalidRefreshToken,
+		).AppError
+	}
 
 	return nil, nil
 }

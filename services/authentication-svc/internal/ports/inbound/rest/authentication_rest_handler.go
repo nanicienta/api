@@ -79,18 +79,26 @@ func (arh *AuthenticationRestHandler) refresh(c *gin.Context) {
 	cmd, err := parseRefreshTokenCommand(c)
 	if err != nil {
 		arh.logger.Error("failed to parse refresh token command (Parsing the context)", "err", err)
-		//TODO update to something more specific
 		c.AbortWithStatusJSON(
-			http.StatusBadRequest, errors.AppError{
+			http.StatusUnauthorized, errors.AppError{
 				Message:     "failed to parse refresh token command",
-				HTTPStatus:  http.StatusBadRequest,
+				HTTPStatus:  http.StatusUnauthorized,
 				Description: "failed to parse refresh token command",
 			},
 		)
 		return
 	}
 	result, appErr := arh.authenticationUseCase.RefreshToken(cmd)
+	if appErr != nil {
+		arh.logger.Error("failed to refresh token", "err", appErr)
+		c.AbortWithStatusJSON(appErr.HTTPStatus, appErr)
+		return
+	}
+	c.JSON(http.StatusOK, result)
+}
 
+func (arh *AuthenticationRestHandler) getProvidersByOrg(context *gin.Context) {
+	panic("implement me")
 }
 
 func parseRefreshTokenCommand(c *gin.Context) (command.RefreshTokenCommand, error) {

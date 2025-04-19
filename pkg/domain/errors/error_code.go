@@ -60,4 +60,5 @@ const (
 	// InternalServerErrorGettingAuthIdentity indicates an unexpected error while getting the auth identity.
 	InternalServerErrorGettingAuthIdentity ErrorCode = "10000000"
 	InvalidCredentials                     ErrorCode = "10000001"
+	InvalidRefreshToken                    ErrorCode = "10000002"
 )
