@@ -4,6 +4,11 @@ package errors
 type ErrorCode string
 
 const (
+
+	//common error codes
+	InternalServerErrorCode ErrorCode = "0000000"
+	InvalidRequest          ErrorCode = "0000001"
+
 	//ErrorUserNotAcceptTermsAndConditions is returned when the user has not accepted the terms and conditions
 	ErrorUserNotAcceptTermsAndConditions ErrorCode = "0000001"
 	//ErrorInvalidEmail is returned when the email is invalid
@@ -50,4 +55,11 @@ const (
 
 	// InternalServerErrorSendingNotification indicates an unexpected error while sending a notification.
 	InternalServerErrorSendingNotification ErrorCode = "00000030"
+
+	/*AuthServiceErrorCode*/
+
+	// InternalServerErrorGettingAuthIdentity indicates an unexpected error while getting the auth identity.
+	InternalServerErrorGettingAuthIdentity ErrorCode = "10000000"
+	InvalidCredentials                     ErrorCode = "10000001"
+	InvalidRefreshToken                    ErrorCode = "10000002"
 )

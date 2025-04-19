@@ -1,7 +1,7 @@
 // Package repository provides the interface for the forgot repository
 package repository
 
-import "github.com/nanicienta/api/authorization-svc/internal/domain/model"
+import "github.com/nanicienta/api/authentication-svc/internal/domain/model"
 
 // ForgotRepository Interface for the forgot repository
 type ForgotRepository interface {
