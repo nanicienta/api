@@ -7,22 +7,29 @@ This repository provides the base structure and boilerplate for a set of microse
 
 ### Services Included:
 
-- **Account Service (`account-svc`)**: Handles user management, authentication, authorization, and organization management.
-- **Application Service (`application-svc`)**: Manages applications and their respective environments.
-- **Scaffold Service (`scaffold-svc`)**: Provides boilerplate generation for different technology stacks.
+- **Account Service (`[account-svc](services/account-svc)account-svc`)**: Handles user management.
+- **Application Service (`[application-svc](services/application-svc)`)**: Manages applications and their respective configuration. Like names, where is going to be deployed, etc.
+- **Authentication Service (`[authentication-svc](services/authentication-svc)`)**: Manages authentication.
+- **Authorization Service (`[authorization-svc](services/authorization-svc)`)**: Manages authorization.
+- **Billing Service (`[billing-svc](services/billing-svc)`)**: Provides billing and payment functionalities.
+- **Environment Service (`[environment-svc](services/environment-svc)`)**: Provides environemnt functionalities. like env vars, ephemeral environments.
 - **Logging Service (`logging-svc`)**: Centralized logging and monitoring service.
+- **Namespaces Service (`[namespaces-svc](services/namespaces-svc)`)**: Manages namespaces, access to the components, and other functionalities.
+- **Organization Service (`[organization-svc](services/organization-svc)`)**: Handles the creation and management of organizations. Authentication prefrences
+- **Scaffold Service (`[scaffold-svc](services/scaffold-svc)`)**: In the future this is going to be responsible for scaffolding new services in different languages, and other functionalities.
 
 ### Shared Libraries (`pkg`):
-- **Domain**: Some domain utils, like page and other types that will be useful in the future.
-- **Logger**: Basic logging utilities.
-- **Auth**: Authentication middleware.
-- **Config**: Utilities for environment configuration loading.
+- **[command](pkg/domain/command)**: Some common commands used by the services.
+- **[errors](pkg/domain/errors)**: Error utils and error codes.
+- **[auth](pkg/domain/auth)**: Authentication middleware.
+- **[logging](pkg/ports/logging)**: Logging port
+- **[client](pkg/ports/outbound/client)**: Clients used by the services
 
 ---
 
 ## Prerequisites
 
-- **Go 1.23+**
+- **Go 1.24+**
 - ```go install mvdan.cc/gofumpt@latest```
 - **Docker and Docker Compose** (optional for local setup)
 - **Make** (optional for automation tasks)
@@ -34,8 +41,8 @@ This repository provides the base structure and boilerplate for a set of microse
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd my-dev-platform
+git clone git@github.com:nanicienta/api.git
+cd api
 ```
 
 ### 2. Setup environment variables
@@ -73,64 +80,10 @@ go run account.go
 
 Repeat this step for any other service you wish to run.
 
-### Using Docker Compose (Recommended)
-
-*(Docker Compose file not provided in this template, but highly recommended)*
-
-A basic example `docker-compose.yml` structure:
-
-```yaml
-version: '3.8'
-services:
-  account_svc:
-    build: services/account-svc
-    environment:
-      - DB_URL=${DB_URL}
-    ports:
-      - "9000:9000"
-
-  app_svc:
-    build: services/application-svc
-    environment:
-      - DB_URL=${DB_URL}
-    ports:
-      - "9001:9001"
-
-  scaffold_svc:
-    build: ./services/scaffold-svc
-    ports:
-      - "9002:9002"
-
-  logging_svc:
-    build: ./services/logging-svc
-    ports:
-      - "9003:9003"
-
-  db:
-    image: postgres:14
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=dbname
-    ports:
-      - "5432:5432"
-```
-
-Run all services:
+## Run all services:
 
 ```bash
 docker-compose up
-```
-
----
-
-## Development and Formatting
-
-The project includes a `.prettierrc` for consistent formatting. To format your files:
-
-```bash
-npm install -g prettier
-prettier --write .
 ```
 
 ---

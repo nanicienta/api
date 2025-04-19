@@ -1,3 +1,4 @@
+// Package command provides the command structure for different actions on the service.
 package command
 
 // UpdateProfileCommand represents the command to update a user's profile.

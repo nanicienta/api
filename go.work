@@ -3,7 +3,6 @@ go 1.24.2
 use (
 ./services/account-svc
 ./services/application-svc
-./services/authorization-svc
 ./services/authentication-svc
 ./services/billing-svc
 ./services/environment-svc
